@@ -1,0 +1,8 @@
+const getHits = data => data.getHits;
+const getItem = data => ({
+  id: data.id,
+  webformatURL: data.webformatURL,
+  largeImageURL: data.largeImageURL,
+});
+
+export { getHits, getItem };
