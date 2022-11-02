@@ -14,6 +14,7 @@ export class ItemsApi {
   }
 
   isLastPage() {
+    console.log(this)
     return this.page >= this.pageMax;
   }
 
@@ -24,7 +25,7 @@ export class ItemsApi {
       params: {
         key: '30341549-2658c35ea7dbba4c0cdeabc27',
         page: this.page,
-        per_page: 12,
+        per_page: 6,
         orientation: 'horizontal',
         q: this.value,
         image_type: 'photo',

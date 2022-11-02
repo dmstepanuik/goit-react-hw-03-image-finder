@@ -1,15 +1,22 @@
+import { element } from 'prop-types';
 import React from 'react';
 import s from './Searchbar.module.css';
 
-export default function Searchbar() {
+export default function Searchbar({onChangeSearch}) {
+  const onSubmit = e => {
+    e.preventDefault()
+    const form = e.target;
+    
+    onChangeSearch(form.elements.search.value);
+  };
   return (
     <header className={s.searchbar}>
-      <form className={s.searchForm}>
+      <form className={s.searchForm} onSubmit={onSubmit}>
         <button type="submit" className={s.searchFormButton}>
           <span className={s.searchFormButtonLabel}>Search</span>
         </button>
 
-        <input
+        <input name='search'
           className={s.searchFormInput}
           type="text"
           autoComplete="off"

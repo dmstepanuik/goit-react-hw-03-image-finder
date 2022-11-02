@@ -1,36 +1,40 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import 'notiflix/dist/notiflix-3.2.5.min.css';
 import './styles.css';
-
+import ImageGallery from './ImageGallery/ImageGallery';
 import Searchbar from './Searchbar/Searchbar';
 import { Component } from 'react';
 import { itemsApi } from 'services/ItemsApi';
+import Button from './Button/Button';
 
 export class App extends Component {
-  async componentDidMount() {
-    const { data } = await itemsApi.fetchItems('get');
-    console.log(data);
+  state = { search: '', items: [] };
 
-    await itemsApi
-      .fetchItems('get')
-      .then(res => {
-        console.log(res);
-      })
-      .catch(e => {
-        Notify.failure(e.message);
-      });
+  onChangeSearch = async value => {
+    itemsApi.resetPage();
+    const { data } = await itemsApi.fetchItems(value).catch(e => {
+      Notify.failure(e.message);
+    });
+    this.setState({ items: data.hits });
+  };
 
-    // if (!itemsApi.isLastPage()) {
-    //   loadMoreRef.classList.remove('is-hidden');
-    // } else {
-    //   loadMoreRef.classList.add('is-hidden');
-    // }
-  }
+  loadMore = async () => {
+    itemsApi.incrementPage();
+    const { data } = await itemsApi.fetchItems().catch(e => {
+      Notify.failure(e.message);
+    });
+    this.setState(prev => ({ items: [...prev.items, ...data.hits] }));
+  };
 
   render() {
+    const { items } = this.state;
+    console.log(itemsApi)
+    const isLastPage = itemsApi?.isLastPage();
     return (
       <div>
-        <Searchbar />
+        <Searchbar onChangeSearch={this.onChangeSearch} />
+        <ImageGallery items={items} />
+        {!isLastPage && <Button loadMore={this.loadMore} />}
       </div>
     );
   }
