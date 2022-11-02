@@ -5,8 +5,8 @@ export default function ImageGalleryItem({ id, webformatURL, largeImageURL, onCl
   return (
     <li className={s.imageGalleryItem}>
       <img
-        onClick={onClickCard}
-        lassName={s.imageGalleryItemImage}
+        onClick={() => onClickCard(largeImageURL)}
+        className={s.imageGalleryItemImage}
         src={webformatURL}
         alt="img"
       />

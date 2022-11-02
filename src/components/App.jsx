@@ -6,21 +6,23 @@ import Searchbar from './Searchbar/Searchbar';
 import { Component } from 'react';
 import { itemsApi } from 'services/ItemsApi';
 import Button from './Button/Button';
+import Modal from './Modal/Modal';
 
 export class App extends Component {
   state = { search: '', items: [], showedModal: false, modalImg: '' };
 
-  onClickCard = (imgUrl) => {
-
-  }
+  onClickCard = imgUrl => {
+    this.setState({ modalImg: imgUrl });
+    this.toggleModal();
+  };
 
   toggleModal = () => {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       return {
         showedModal: !prevState.showedModal,
       };
-    })
-  }
+    });
+  };
 
   onChangeSearch = async value => {
     itemsApi.resetPage();
@@ -39,15 +41,15 @@ export class App extends Component {
   };
 
   render() {
-    const { items } = this.state;
-    console.log(itemsApi)
+    const { items, modalImg, showedModal } = this.state;
     const isLastPage = itemsApi?.isLastPage();
     return (
-      <div>
+      <>
         <Searchbar onChangeSearch={this.onChangeSearch} />
         <ImageGallery onClickCard={this.onClickCard} items={items} />
         {!isLastPage && <Button loadMore={this.loadMore} />}
-      </div>
+        {showedModal && <Modal imgUrl={modalImg} toggleModal={this.toggleModal} />}
+      </>
     );
   }
 }

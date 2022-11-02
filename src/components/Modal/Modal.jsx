@@ -1,11 +1,11 @@
 import React from 'react';
 import s from './Modal.module.css';
 
-export default function Modal() {
+export default function Modal({ imgUrl, toggleModal }) {
   return (
-    <div className={s.overlay}>
+    <div onClick={toggleModal} className={s.overlay}>
       <div className={s.modal}>
-        <img src="" alt="" />
+        <img src={imgUrl} alt="img" />
       </div>
     </div>
   );

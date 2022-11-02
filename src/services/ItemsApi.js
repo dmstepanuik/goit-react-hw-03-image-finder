@@ -14,7 +14,6 @@ export class ItemsApi {
   }
 
   isLastPage() {
-    console.log(this)
     return this.page >= this.pageMax;
   }
 
