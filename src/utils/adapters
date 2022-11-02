@@ -1,8 +1,0 @@
-const getHits = data => data.hits;
-export const getItem = data => ({
-  id: data.id,
-  webformatURL: data.webformatURL,
-  largeImageURL: data.largeImageURL,
-});
-
-export { getHits };
